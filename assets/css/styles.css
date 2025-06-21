@@ -1,0 +1,771 @@
+/* Universal Resets */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* CSS Variables (from Style Guide) */
+:root {
+    /* Primary Colors */
+    --blue-950: hsl(213, 96%, 18%); /* Marine blue */
+    --purple-600: hsl(243, 100%, 62%); /* Purplish blue */
+    --blue-300: hsl(228, 100%, 84%); /* Pastel blue */
+    --blue-200: hsl(206, 94%, 87%); /* Light blue */
+    --red-500: hsl(354, 84%, 57%); /* Strawberry red */
+
+    /* Neutral Colors */
+    --grey-500: hsl(231, 11%, 63%); /* Cool gray */
+    --purple-200: hsl(229, 24%, 87%); /* Light gray */
+    --blue-100: hsl(218, 100%, 97%); /* Very light gray */
+    --blue-50: hsl(231, 100%, 99%); /* White (background) */
+    --white: hsl(0, 100%, 100%); /* Pure white */
+
+    /* Typography */
+    --font-family: 'Ubuntu', sans-serif;
+    --font-size-base: 16px;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+}
+
+/* Base Body Styles */
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--blue-100); /* Very light gray background for the whole page */
+    color: var(--grey-500);
+}
+
+h2 {
+    color: var(--blue-950);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.5rem;
+}
+
+p {
+    line-height: 1.6;
+}
+
+.form-description {
+    color: var(--grey-500);
+    margin-bottom: 1.5rem;
+}
+
+/* Main Layout for Mobile */
+.main-layout {
+    width: 100%;
+    max-width: 375px; /* Mobile design width */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--white); /* Default white background for the whole form structure */
+    border-radius: 10px; /* Rounded corners for the desktop layout */
+    overflow: hidden; /* Ensures background images don't overflow */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+/* Sidebar for Mobile */
+.steps-sidebar {
+    width: 100%;
+    height: 170px; /* Adjust height based on design */
+    background-image: url("../images/bg-sidebar-mobile.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 2rem;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between number and text */
+}
+
+.step-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33px; /* As per design, slightly larger than before */
+    height: 33px;
+    border-radius: 50%;
+    border: 1px solid var(--white);
+    color: var(--white);
+    font-weight: var(--font-weight-bold);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.step-number.active {
+    background-color: var(--blue-200); /* Light blue from style guide */
+    color: var(--blue-950); /* Dark text for active step */
+    border-color: var(--blue-200); /* Match background */
+}
+
+.step-text {
+    display: none; /* Hidden on mobile */
+    text-transform: uppercase;
+}
+
+.step-title {
+    color: var(--grey-500);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-regular);
+}
+
+.step-desc {
+    color: var(--white);
+    font-weight: var(--font-weight-bold);
+    margin-top: 0.2rem;
+    font-size: 0.95rem;
+}
+
+
+/* Form Content Area */
+.form-content {
+    width: 100%;
+    position: relative; /* For absolute positioning of form steps within it */
+    padding: 0 1rem; /* Padding for mobile forms */
+    top: -70px; /* Pull forms up to overlap sidebar background */
+    margin-bottom: -70px; /* Compensate for the top pull to keep flow correct */
+}
+
+.form-step {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Stronger shadow for contrast */
+    width: 100%;
+    max-width: 340px; /* Match design on mobile */
+    margin: 0 auto; /* Center the form step */
+    display: none; /* Hidden by default, shown by JS */
+}
+
+.form-step.active {
+    display: block; /* Shown by JS */
+}
+
+/* Form Groups and Inputs */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--blue-950);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--grey-500);
+    border-radius: 5px;
+    font-size: var(--font-size-base);
+    color: var(--blue-950);
+    font-weight: var(--font-weight-medium);
+}
+
+.form-group input::placeholder {
+    color: var(--grey-500);
+    opacity: 0.8;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--purple-600);
+}
+
+.form-group input.is-invalid {
+    border-color: var(--red-500);
+}
+
+.error-message {
+    color: var(--red-500);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-bold);
+    display: none; /* Controlled by JS */
+}
+
+/* Navigation Buttons */
+.form-navigation {
+    display: flex;
+    justify-content: space-between; /* Default for prev/next */
+    padding-top: 1rem; /* Space from form content */
+    margin-top: 2rem; /* Space from form content */
+    position: sticky; /* Make buttons stick to the bottom */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--white);
+    z-index: 100; /* Ensure buttons are above other content */
+    padding: 1rem 1.5rem; /* Match form-step padding */
+    margin-left: -1.5rem; /* Compensate for form-step padding */
+    margin-right: -1.5rem;
+    border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+}
+/* Adjust specific step navigation layouts */
+#step-1 .form-navigation {
+    justify-content: flex-end; /* Only Next button */
+}
+#step-5 .form-navigation {
+    display: none; /* No buttons on thank you page */
+}
+
+.next-button,
+.confirm-button {
+    background-color: var(--blue-950);
+    color: var(--white);
+    border: none;
+    padding: 0.8rem 1.25rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    transition: background-color 0.2s ease;
+}
+
+.next-button:hover,
+.next-button:focus,
+.confirm-button:hover,
+.confirm-button:focus {
+    background-color: var(--purple-600); /* Lighter blue/purple on hover/focus */
+    outline: none;
+}
+
+.prev-button {
+    background: none;
+    border: none;
+    color: var(--grey-500);
+    padding: 0.8rem 1.25rem;
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    transition: color 0.2s ease;
+}
+
+.prev-button:hover,
+.prev-button:focus {
+    color: var(--blue-950);
+    outline: none;
+}
+
+/* Step 2 - Plan Selection */
+.plan-cards-container {
+    display: flex;
+    flex-direction: column; /* Stack cards on mobile */
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.plan-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid var(--grey-500);
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.plan-card:hover {
+    border-color: var(--purple-600);
+}
+
+.plan-card.selected {
+    border-color: var(--purple-600);
+    background-color: var(--blue-50); /* Very light background for selected */
+}
+
+.plan-card img {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.plan-card .plan-name {
+    color: var(--blue-950);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.2rem;
+}
+
+.plan-card .plan-price {
+    color: var(--grey-500);
+    font-size: 0.9rem;
+    margin-bottom: 0; /* Remove default paragraph margin */
+}
+
+.plan-card .plan-promo {
+    color: var(--blue-950); /* Marine blue for promo text */
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    margin-top: 0.3rem;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+/* Billing Toggle Switch */
+.billing-toggle-container {
+    background-color: var(--blue-100); /* Very light gray background */
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem; /* Space between labels and switch */
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 1.5rem;
+}
+
+.billing-option {
+    color: var(--grey-500);
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.billing-option.active {
+    color: var(--blue-950); /* Darker color for active option */
+}
+
+/* Custom Switch Toggle (Replacing Bootstrap) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 38px; /* Width of the track */
+    height: 20px; /* Height of the track */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--blue-950); /* Blue track */
+    transition: .4s;
+    border-radius: 34px; /* Rounded corners for track */
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px; /* Thumb size */
+    width: 12px; /* Thumb size */
+    left: 4px; /* Initial position from left */
+    bottom: 4px; /* Initial position from bottom */
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%; /* Round thumb */
+}
+
+input:checked + .slider {
+    background-color: var(--blue-950); /* Keep blue track when checked */
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px); /* Move thumb to the right */
+}
+
+/* Step 3 - Add-ons */
+.add-on-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.add-on-card {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--grey-500);
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.add-on-card:hover {
+    border-color: var(--purple-600);
+}
+
+.add-on-card.selected { /* Using .selected for checked state */
+    border-color: var(--purple-600);
+    background-color: var(--blue-50);
+}
+
+.add-on-checkbox {
+    /* Hide default checkbox */
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--grey-500);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 1rem;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    display: grid; /* For centering custom checkmark */
+    place-content: center; /* For centering custom checkmark */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.add-on-checkbox:checked {
+    background-color: var(--purple-600);
+    border-color: var(--purple-600);
+    /* Custom checkmark SVG (white) */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3 6-6'/%3e%3c/svg%3e");
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.add-on-details {
+    flex-grow: 1; /* Takes up available space */
+}
+
+.add-on-name {
+    display: block;
+    color: var(--blue-950);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 0.2rem;
+}
+
+.add-on-desc {
+    display: block;
+    color: var(--grey-500);
+    font-size: 0.85rem;
+}
+
+.add-on-price {
+    color: var(--purple-600); /* Purplish blue for prices */
+    font-weight: var(--font-weight-medium);
+    font-size: 0.9rem;
+    flex-shrink: 0; /* Prevent price from shrinking */
+}
+
+/* Step 4 - Summary */
+.summary-container {
+    background-color: var(--blue-100); /* Very light gray background */
+    padding: 1.25rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.summary-plan-details {
+    display: flex; /* Keep as flexbox */
+    flex-direction: column; /* IMPORTANT: Stack items vertically */
+    align-items: flex-start; /* Align text to the left */
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--grey-500); /* Divider */
+    margin-bottom: 1rem; /* Space below divider */
+}
+
+/* This is the container for the plan name and "Change" link */
+.summary-plan-info {
+    display: flex; /* Inner flex to control name and change link */
+    flex-direction: column; /* Stack name and change link */
+    align-items: flex-start; /* Align text to the left */
+}
+
+.summary-plan-details p {
+    color: var(--blue-950);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 0.2rem; /* Small margin between plan name and change link */
+}
+
+.summary-plan-details .change-plan-button {
+    background: none;
+    border: none;
+    color: var(--grey-500);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.85rem; /* Slightly smaller for change link */
+    transition: color 0.2s ease;
+    margin-bottom: 0; /* Ensure no extra margin */
+}
+
+.summary-plan-details .change-plan-button:hover {
+    color: var(--purple-600);
+}
+
+.summary-plan-details span.selected-plan-price-summary { /* Target the price span specifically */
+    color: var(--blue-950);
+    font-weight: var(--font-weight-bold);
+    font-size: 1rem;
+    margin-top: 1rem; /* Space the price from the stacked name/change */
+    align-self: flex-end; /* Push the price to the right end */
+}
+
+.add-on-summary .summary-add-on-item { /* Dynamic items will get this class */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.add-on-summary .summary-add-on-item:last-child {
+    margin-bottom: 0; /* No margin on last item */
+}
+
+.add-on-summary .summary-add-on-item span:first-child {
+    color: var(--grey-500);
+    font-size: 0.9rem;
+}
+
+.add-on-summary .summary-add-on-item span:last-child {
+    color: var(--blue-950);
+    font-weight: var(--font-weight-medium);
+    font-size: 0.9rem;
+}
+
+.total-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem; /* Match summary container padding */
+}
+
+.total-label {
+    color: var(--grey-500);
+    font-size: 0.9rem;
+}
+
+.total-price {
+    color: var(--purple-600); /* Purplish blue for total */
+    font-weight: var(--font-weight-bold);
+    font-size: 1.25rem;
+}
+
+/* Step 5 - Thank You */
+.thank-you-step {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Take full height of its container */
+    padding-top: 3rem; /* Adjusted for better spacing */
+    padding-bottom: 3rem;
+}
+
+.thank-you-step img {
+    width: 56px; /* As per design */
+    height: 56px;
+    margin-bottom: 1.5rem;
+}
+
+.thank-you-step h2 {
+    margin-bottom: 1rem;
+}
+
+/* Footer (Attribution) */
+footer {
+    width: 100%;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--grey-500);
+    padding: 1rem 0;
+    margin-top: auto; /* Push to bottom if body is flex column */
+}
+
+footer a {
+    color: var(--blue-950);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer a:hover {
+    color: var(--purple-600);
+}
+
+
+/* --- Media Queries for Desktop Layout (768px and up) --- */
+@media (min-width: 768px) {
+    body {
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .main-layout {
+        flex-direction: row;
+        max-width: 900px;
+        min-height: 600px; /* IMPORTANT: Set a min-height for the main container */
+        padding: 1rem;
+        top: auto;
+        margin-bottom: auto;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        align-items: stretch; /* IMPORTANT: Allow children to stretch to fill height */
+    }
+
+    .steps-sidebar {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-basis: 274px;
+        min-width: 274px;
+        height: auto; /* Allow to fill parent height */
+        background-image: url("../images/bg-sidebar-desktop.svg");
+        background-size: cover; /* Cover the entire area */
+        background-position: center;
+        padding: 2.5rem 2rem;
+        gap: 1.75rem;
+        border-radius: 10px;
+    }
+
+    .step-text {
+        display: block;
+    }
+    
+    .form-content {
+        flex-grow: 1;
+        padding: 2.5rem 6.25rem 2.5rem 6.25rem;
+        top: auto;
+        margin-bottom: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* This will center the flex child (form-step) vertically */
+        height: 100%; /* Ensure it takes full height to allow vertical centering */
+    }
+
+    /* CRITICAL CORRECTION: Ensure only the active form step is displayed on desktop */
+    .form-step {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+        flex-grow: 0; /* Prevent form-step from taking all available vertical space */
+        flex-shrink: 0; /* Prevent it from shrinking */
+        display: none; /* Hide all form steps by default */
+        flex-direction: column;
+        justify-content: flex-start; /* Content within the step aligns to top */
+    }
+    
+    .form-step.active {
+        display: flex; /* Only show the active form step and make it a flex container */
+    }
+    
+    /* Navigation buttons for desktop */
+    .form-navigation {
+        position: static;
+        padding: 0;
+        margin-top: auto; /* Push buttons to the bottom of form-content */
+        border-radius: 0;
+        background-color: transparent;
+        flex-shrink: 0;
+    }
+
+    /* Step 2 Desktop Layout */
+    .plan-cards-container {
+        flex-direction: row;
+        gap: 1.25rem;
+    }
+
+    .plan-card {
+        flex-direction: column;
+        align-items: flex-start;
+        flex-basis: 33.33%;
+        flex-grow: 1;
+        padding: 1.25rem;
+    }
+
+    .plan-card img {
+        margin-bottom: 2.5rem;
+    }
+
+    .plan-card .plan-price {
+        margin-top: 0.3rem;
+    }
+
+    /* Step 3 Desktop Layout */
+    .add-on-card {
+        padding: 1.25rem;
+    }
+    .add-on-checkbox {
+        margin-right: 1.5rem;
+    }
+
+    /* Step 4 Desktop Layout */
+    .total-summary {
+        padding: 0;
+    }
+
+    /* Refined for desktop summary layout (can re-use mobile classes or adjust) */
+    .summary-plan-details {
+        flex-direction: row; /* On desktop, place plan info and price side-by-side */
+        justify-content: space-between; /* Space out evenly */
+        align-items: center; /* Vertically align items in the middle */
+    }
+
+    .summary-plan-info {
+        flex-direction: column; /* Still stack name and change link */
+        align-items: flex-start;
+    }
+
+    .summary-plan-details span.selected-plan-price-summary {
+        margin-top: 0; /* Remove top margin */
+        align-self: auto; /* Let it align normally within the row flexbox */
+    }
+
+    /* Thank You Step Desktop */
+    .thank-you-step {
+        justify-content: center;
+        height: 100%;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+/* Small adjustments for larger desktops if needed, otherwise this block can be removed */
+@media (min-width: 1024px) {
+    /* No major changes needed if 768px handles it well */
+}
+
+/* Footer (Attribution) - Moved outside media query as it's static position now for desktop */
+.attribution {
+    font-size: 11px;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    color: var(--grey-500);
+}
+.attribution a {
+    color: var(--blue-950);
+    text-decoration: none;
+}
+.attribution a:hover {
+    color: var(--purple-600);
+}
+
+/* Small correction for footer positioning in flex body for both mobile and desktop */
+@media (max-width: 767px) {
+    .main-layout {
+        margin-bottom: 0;
+    }
+    body {
+        justify-content: flex-start;
+    }
+    footer {
+        position: static;
+        margin-top: 0;
+        padding-top: 0;
+    }
+}
